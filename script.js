@@ -374,12 +374,11 @@ function renderResult(category) {
 
   scorePlaylist.playlist.forEach((song) => {
     const item = document.createElement("li");
-    item.textContent = `${song.title} - `;
     const link = document.createElement("a");
     link.href = song.spotifyUrl;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
-    link.textContent = "Spotify";
+    link.textContent = song.title;
     item.append(link);
     resultPlaylist.append(item);
   });
