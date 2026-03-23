@@ -193,19 +193,8 @@ const scorePlaylists = {
 };
 
 let currentQuestionIndex = 0;
-const categoryPriority = ["energetic", "chill", "night-vibes"];
-let scores = createInitialScores();
-let categoryCounts = createInitialScores();
 let totalScore = 0;
 let isTransitioningQuestion = false;
-
-function createInitialScores() {
-  return {
-    energetic: 0,
-    chill: 0,
-    "night-vibes": 0,
-  };
-}
 
 function validateQuizConfiguration() {
   const hasFiveQuestions = questions.length === 5;
@@ -273,31 +262,20 @@ function renderQuestion(index) {
   });
 }
 
-function incrementScore(category, points) {
-  if (!Object.hasOwn(scores, category)) {
-    return;
-  }
-
-  scores[category] += points;
-  categoryCounts[category] += 1;
+function incrementScore(points) {
   totalScore += points;
 }
 
 function getWinningCategory() {
-  return categoryPriority.reduce((winner, category) => {
-    if (categoryCounts[category] > categoryCounts[winner]) {
-      return category;
-    }
+  if (totalScore <= 3) {
+    return "night-vibes";
+  }
 
-    if (
-      categoryCounts[category] === categoryCounts[winner] &&
-      scores[category] > scores[winner]
-    ) {
-      return category;
-    }
+  if (totalScore <= 7) {
+    return "chill";
+  }
 
-    return winner;
-  }, categoryPriority[0]);
+  return "energetic";
 }
 
 function getScoreLevel(score) {
@@ -314,24 +292,15 @@ function getScoreLevel(score) {
 
 function getCategoryLevelMessage(category, level) {
   const messages = {
-    energetic: {
-      Sakin: "İçindeki enerjiyi nazikçe yükseltiyorsun; hafif ritimlerle açılış iyi gelecek.",
-      Dengeli: "Enerjin yerinde; tempoyu dengeli artıran parçalar tam kararında.",
-      "Yüksek Enerji": "Bugün yüksek tempodasın; güçlü beat ve motivasyon veren parçalar tam senlik.",
-    },
-    chill: {
-      Sakin: "Sakinliğe ihtiyacın var; yumuşak ve dinlendirici parçalarla nefes alıyorsun.",
-      Dengeli: "Rahat ama akıştasın; huzurlu ve hafif hareketli bir denge kuruyorsun.",
-      "Yüksek Enerji": "Sakin çizgide bile canlısın; pozitif ve ritimli parçalar öne çıkıyor.",
-    },
-    "night-vibes": {
-      Sakin: "Gece ruhunda daha derin ve melankolik bir tondasın; karanlık tınılar öne çıkıyor.",
-      Dengeli: "Gece atmosferini dengeli yaşıyorsun; dreamy ve alternatif çizgide iyi bir harman.",
-      "Yüksek Enerji": "Gece enerjin yükselmiş; gizemli ama güçlü ve akıcı parçalarla parlıyorsun.",
-    },
+    energetic:
+      "Bugün yüksek tempodasın; güçlü beat ve motivasyon veren parçalar tam senlik.",
+    chill:
+      "Rahat ama akıştasın; huzurlu ve hafif hareketli bir denge kuruyorsun.",
+    "night-vibes":
+      "Gece ruhunda daha derin ve melankolik bir tondasın; karanlık tınılar öne çıkıyor.",
   };
 
-  return messages[category]?.[level] || "Ruh haline uygun bir liste hazırlandı.";
+  return messages[category] || "Ruh haline uygun bir liste hazırlandı.";
 }
 
 function renderResult(category) {
@@ -386,8 +355,6 @@ function renderResult(category) {
 
 function resetQuizState() {
   currentQuestionIndex = 0;
-  scores = createInitialScores();
-  categoryCounts = createInitialScores();
   totalScore = 0;
   isTransitioningQuestion = false;
 }
@@ -398,7 +365,7 @@ function handleAnswerSelection(category, points) {
   }
 
   isTransitioningQuestion = true;
-  incrementScore(category, points);
+  incrementScore(points);
   currentQuestionIndex += 1;
 
   if (currentQuestionIndex < questions.length) {
