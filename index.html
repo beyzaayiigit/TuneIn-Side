@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TuneIn-Side | Music Soul Quiz</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section id="landing-screen" class="screen">
+        <h1>🎵 TuneIn-Side</h1>
+        <p class="subtitle">
+          5 soruluk eğlenceli testle müzik ruh haline uygun playlistini keşfet.
+        </p>
+        <button id="start-quiz-btn" type="button">✨ Start Quiz</button>
+      </section>
+
+      <section id="quiz-screen" class="screen is-hidden" aria-live="polite">
+        <p id="quiz-progress" class="progress">Soru 1/5</p>
+        <h2 id="question-title">Soru metni burada görünecek.</h2>
+        <div id="answer-options" class="options"></div>
+      </section>
+
+      <section id="result-screen" class="screen is-hidden">
+        <article class="result-card">
+          <h2 id="result-title">🌟 Müzik Kişiliğin</h2>
+          <p id="result-description">
+            Sonuç açıklaması bu alanda gösterilecek.
+          </p>
+          <div id="result-meta" class="result-meta"></div>
+          <ul id="result-playlist"></ul>
+          <button id="retry-quiz-btn" type="button">🔁 Tekrar Çöz</button>
+        </article>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

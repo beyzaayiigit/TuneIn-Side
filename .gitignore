@@ -1,0 +1,9 @@
+# Keep repo focused on deployable app files.
+
+# Ignore planning and draft docs
+prd.md
+tasks.md
+MANUAL_CHECKLIST.md
+TEST_PLAN.md
+RELEASE_NOTES.md
+score-playlists.md
